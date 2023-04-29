@@ -9,14 +9,6 @@ Dog::Dog(const std::string& name, const Location& _location) : Animal(name)
 	direction = (rand() % 2) + 1;
 }
 
-Dog::Dog(std::string state) : Animal(state)
-{
-}
-
-Dog::Dog()
-{
-}
-
 Dog::~Dog()
 {
 }
@@ -39,16 +31,14 @@ void Dog::step()
 
 			if (direction == 1) {
 				if (horizontal) {
-					location.column = checkIsValid(location.column - 3);
-					map[location.row][location.column] = "D";
-					//location.column -= 3;
+					location.column = checkIsValid(location.column - 3, "column");
+		
 					dir = "col";
 				}
 				else
 				{
-					location.column = checkIsValid(location.column + 3);
-					map[location.row][location.column] = "D";
-					//location.column += 3;
+					location.column = checkIsValid(location.column + 3, "column");
+		
 					dir = "col";
 				}
 
@@ -56,16 +46,14 @@ void Dog::step()
 			else {
 				if (vertical)
 				{
-					location.row = checkIsValid(location.row - 3);
-					map[location.row][location.column] = "D";
-					//location.row -= 3;
+					location.row = checkIsValid(location.row - 3, "row");
+			
 					dir = "row";
 				}
 				else
 				{
-					location.row = checkIsValid(location.row + 3);
-					map[location.row][location.column] = "D";
-					//location.row += 3;
+					location.row = checkIsValid(location.row + 3, "row");
+					
 					dir = "row";
 				}
 			}
@@ -75,11 +63,10 @@ void Dog::step()
 
 		else {
 			if (dir == "col") {
-				map[location.row][location.column - 1] = "D";
 				location.column -= 1;
 			}
 			else {
-				map[location.row - 1][location.column] = "D";
+				
 				location.row -= 1;
 			}
 			status = "run";

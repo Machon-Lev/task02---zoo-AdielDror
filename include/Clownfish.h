@@ -5,7 +5,6 @@ class Clownfish : public Animal  {
 public:
 	Clownfish(const std::string&, const Location&);
 	Clownfish(std::string);
-	Clownfish();
 	~Clownfish();
 
 	void printDetails() const override;

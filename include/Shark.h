@@ -1,6 +1,3 @@
-#ifndef Shark_HEADER
-#define Shark_HEADER
-
 #include "Animal.h" 
 #include <string>
 class Shark : public Animal {
@@ -8,7 +5,6 @@ class Shark : public Animal {
 public:
 	Shark(const std::string&, const Location&);
 	Shark(std::string);
-	Shark();
 	~Shark();
 
 	void printDetails() const override;
@@ -20,4 +16,3 @@ public:
 
 };
 
-#endif

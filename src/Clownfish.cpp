@@ -9,14 +9,6 @@ Clownfish::Clownfish(const std::string& name, const Location& _location) :Animal
 	direction = (rand() % 8) + 1;
 }
 
-Clownfish::Clownfish(std::string state) : Animal(state)
-{
-}
-
-Clownfish::Clownfish()
-{
-}
-
 Clownfish::~Clownfish()
 {
 }
@@ -38,16 +30,14 @@ void Clownfish::step()
 			if (horizontal)
 			{
 				
-				location.column = checkIsValid(location.column - 1);
-				map[location.row][location.column] = "C";
-				//location.column -= 1;
+				location.column = checkIsValid(location.column - 1, "column");
+				
 			}
 			else
 			{
 				
-				location.column = checkIsValid(location.column + 1);
-				map[location.row][location.column] = "C";
-				//location.column += 1;
+				location.column = checkIsValid(location.column + 1, "column");
+				
 			}
 
 
@@ -55,17 +45,13 @@ void Clownfish::step()
 		if (direction == 2) {
 			if (vertical)
 			{
-				location.row = checkIsValid(location.row - 1);
-				
-				map[location.row][location.column] = "C";
-				//location.row -= 1;
+				location.row = checkIsValid(location.row - 1, "row");
+			
 			}
 			else
 			{
-				location.row = checkIsValid(location.row + 1);
+				location.row = checkIsValid(location.row + 1, "row");
 			
-				map[location.row][location.column] = "C";
-				//location.row += 1;
 			}
 
 
@@ -73,17 +59,14 @@ void Clownfish::step()
 		if (direction == 3) {
 			if (vertical)
 			{
-				location.row = checkIsValid(location.row + 1);
+				location.row = checkIsValid(location.row + 1, "row");
 		
-				map[location.row][location.column] = "C";
-				//location.row += 1;
+			
 			}
 			else
 			{
-				location.row = checkIsValid(location.row - 1);
-				
-				map[location.row][location.column] = "C";
-				//location.row -= 1;
+				location.row = checkIsValid(location.row - 1, "row");
+			
 
 			}
 
@@ -93,53 +76,38 @@ void Clownfish::step()
 			if (horizontal)
 			{
 			
-				location.column = checkIsValid(location.column +1);
+				location.column = checkIsValid(location.column +1, "column");
 
-				map[location.row][location.column] = "C";
-				//location.column += 1;
 			}
 			else
 			{
 				
-				location.column = checkIsValid(location.column - 1);
-				map[location.row][location.column] = "C";
-				//location.column -= 1;
+				location.column = checkIsValid(location.column - 1, "column");
+		
 			}
 
 
 		}
 		if (direction == 5) {
-			location.row = checkIsValid(location.row + 1);
-			location.column = checkIsValid(location.column + 1);
+			location.row = checkIsValid(location.row + 1, "row");
+			location.column = checkIsValid(location.column + 1, "column");
 
-			map[location.row][location.column] = "C";
-			//location.row += 1;
-			//location.column += 1;
 		}
 		if (direction == 6) {
-			location.row = checkIsValid(location.row - 1);
-			location.column = checkIsValid(location.column - 1);
+			location.row = checkIsValid(location.row - 1, "row");
+			location.column = checkIsValid(location.column - 1, "column");
 
-			map[location.row][location.column] = "C";
-			//location.row -= 1;
-			//location.column -= 1;
 
 		}
 		if (direction == 7) {
-			location.row = checkIsValid(location.row + 1);
-			location.column = checkIsValid(location.column - 1);
-
-			map[location.row][location.column] = "C";
-			//location.row += 1;
-			//location.column -= 1;
+			location.row = checkIsValid(location.row + 1, "row");
+			location.column = checkIsValid(location.column - 1, "column");
+	
 		}
 		if (direction == 8) {
-			location.row = checkIsValid(location.row - 1);
-			location.column = checkIsValid(location.column + 1);
+			location.row = checkIsValid(location.row - 1, "row");
+			location.column = checkIsValid(location.column + 1, "column");
 
-			map[location.row][location.column] = "C";
-			//location.row -= 1;
-			//location.column += 1;
 		}
 	}
 }

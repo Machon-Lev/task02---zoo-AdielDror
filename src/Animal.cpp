@@ -6,17 +6,6 @@ Animal::Animal(std::string name) :name(name)
 {
 }
 
-
-Animal::Animal()
-{
-}
-
-Animal::~Animal()
-{
-}
-
-
-
 Animal::Location Animal::getLocation() const
 {
 	return location;
@@ -64,10 +53,6 @@ void Animal::turnHorizontally()
 	}
 }
 
-std::string Animal::getState()
-{
-	return state;
-}
 
 std::ostream& operator<<(std::ostream& os, const Animal::Location& loc)
 {
@@ -76,15 +61,6 @@ std::ostream& operator<<(std::ostream& os, const Animal::Location& loc)
 	return os;
 }
 
-int checkIsValid(int index)
-{
-	if (index < 0)
-		return 0;
-
-	if (index > 39)
-		return 39;
-	return index;
-}
 
 bool Animal::Location::operator==(Location const& rhs) const
 {
@@ -101,9 +77,22 @@ Animal::Location Animal::Location::operator+(const Location& rhs) const
 	return Location(rhs.row+row, rhs.column+column);
 }
 
-Animal::Location Animal::Location::operator+=(const Location& rhs)
+Animal::Location& Animal::Location::operator+=(const Location& rhs)
 {
-	this->row + rhs.row;
-	this->column + rhs.column;
+	this->row += rhs.row;
+	this->column += rhs.column;
 	return *this;
+}
+
+int checkIsValid(int index, std::string rowOrColumn)
+{
+	if (index < 0)
+		return 0;
+
+	if (index > 39 && rowOrColumn == "column")
+		return 39;
+
+	if (index > 19 && rowOrColumn == "row")
+		return 19;
+	return index;
 }

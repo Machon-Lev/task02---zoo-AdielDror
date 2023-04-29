@@ -7,11 +7,10 @@
 class Animal {
 
 	
-
 protected:
     std::string name;
 	std::string state = "move";
-	int direction;
+	int direction = 0;
 	std::string dir;
 	bool vertical = false;
 	bool horizontal =  false;
@@ -20,10 +19,8 @@ protected:
 
 public:
 	Animal(std::string name);
-	Animal();
-	virtual ~Animal();
+	virtual ~Animal()=default;
 
-	std::string map[20][40];
 	struct Location
 	{
 		int row;
@@ -33,7 +30,7 @@ public:
 		bool operator==(Location const& rhs) const;
 		bool operator!=(Location const& rhs) const;
 		Location operator+(const Location& rhs) const;
-		Location operator+=(const Location& rhs);
+		Location& operator+=(const Location& rhs);
 		
 		
 
@@ -46,13 +43,9 @@ public:
 	void stop();
 	inline virtual void move() = 0;
 	inline virtual void turnVertically();
-	inline virtual void turnHorizontally();
-
-	std::string getState();
-
-	
+	inline virtual void turnHorizontally();	
 };
 
 
-int checkIsValid(int index);
+int checkIsValid(int index, std::string rowOrColumn);
 #endif

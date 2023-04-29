@@ -9,8 +9,6 @@
 #include <sstream>
 #include <list>
 
-Animal* animal;
-
 Zoo::Zoo()
 {
 
@@ -67,7 +65,6 @@ void Zoo::run()
 	std::string type;
 	std::string name;
 	int numOfAnimal;
-	Animal::Location loc;
 	bool found;
 	std::list<std::string> classes = { "Dog", "Shark", "Clownfish" };
 
@@ -142,9 +139,7 @@ void Zoo::run()
 			{
 				std::cout << "Animal number " << number << " does not exist!\n\n";
 			}
-			//std::cout << "Enter number of animal: ";
-			//std::cin >> numOfAnimal;
-			//move(numOfAnimal);
+			
 			printListAndMap();
 			break;
 		case 3:
@@ -196,9 +191,7 @@ void Zoo::run()
 			{
 				std::cout << "Animal number " << number << " does not exist!\n\n";
 			}
-			///*std::cout << "Enter number of animal: ";
-			//std::cin >> numOfAnimal;
-			//del(numOfAnimal);*/
+		
 			printListAndMap();
 			break;
 		case 5:
@@ -352,7 +345,6 @@ void Zoo::del(int numOfAnimal)
 void Zoo::delAll(std::string type)
 {
 	std::vector<std::string> out;
-	bool flag = false;
 
 	int i = 0;
 	while (i < lst.size())
@@ -396,6 +388,7 @@ void Zoo::help() const
 //
 void Zoo::step()
 {
+	Animal* animal;
 	Animal::Location loc;
 	std::vector<std::string> out;
 	std::string location;
@@ -469,7 +462,6 @@ void Zoo::printListAndMap()
 			std::cout << " " << i << "|" << map[i][0];
 		for (int j = 1; j < 40; j++) {
 			// only add spaces for subsequent characters.
-
 			std::cout << " " << map[i][j];
 		}
 		std::cout << "|" << std::endl;
