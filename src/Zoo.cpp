@@ -1,3 +1,4 @@
+/* This is a cpp file for the zoo class that runs the game.*/
 #include "Zoo.h"
 #include <vector>
 #include <cstdlib>
@@ -9,13 +10,12 @@
 #include <sstream>
 #include <list>
 
+// Constructor
 Zoo::Zoo()
 {
-
-
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 40; j++) {
-			map[i][j] = 'x';
+			map[i][j] = '-';
 		}
 	}
 
@@ -53,13 +53,10 @@ Zoo::Zoo()
 			lst[i].push_back(location);
 			animalList.push_back(new Clownfish("Nemo", loc));
 		}
-
 	}
-
-
-
 }
 
+/* The main function that is activated from the main. */
 void Zoo::run()
 {
 	std::string type;
@@ -67,7 +64,6 @@ void Zoo::run()
 	int numOfAnimal;
 	bool found;
 	std::list<std::string> classes = { "Dog", "Shark", "Clownfish" };
-
 
 	printListAndMap();
 
@@ -113,7 +109,7 @@ void Zoo::run()
 			{
 				std::cout << "Animal number " << number << " does not exist!\n\n";
 			}
-
+			step();
 			printListAndMap();
 			break;
 		case 2:
@@ -139,7 +135,7 @@ void Zoo::run()
 			{
 				std::cout << "Animal number " << number << " does not exist!\n\n";
 			}
-			
+			step();
 			printListAndMap();
 			break;
 		case 3:
@@ -163,9 +159,7 @@ void Zoo::run()
 			{
 				std::cout << "Invalid " << type << " type, try again!\n\n";
 			}
-
-
-
+			step();
 			printListAndMap();
 			break;
 		case 4:
@@ -191,7 +185,7 @@ void Zoo::run()
 			{
 				std::cout << "Animal number " << number << " does not exist!\n\n";
 			}
-		
+			step();
 			printListAndMap();
 			break;
 		case 5:
@@ -208,15 +202,12 @@ void Zoo::run()
 				{
 					throw (type);
 				}
-
-
 			}
 			catch (const std::string type)
 			{
 				std::cout << "Invalid " << type << " type, try again!\n\n";
-
 			}
-
+			step();
 			printListAndMap();
 			break;
 		case 6:
@@ -235,7 +226,8 @@ void Zoo::run()
 
 	} while (choice != 0);
 }
-
+/* Accepts as a parameter the number of the animal.
+   This animal will not move from here on out, unless the move command is applied to it again */
 void Zoo::stop(int numOfAnimal) const
 {
 	Animal* animal;
@@ -244,19 +236,19 @@ void Zoo::stop(int numOfAnimal) const
 
 	for (int i = 0; i < lst.size(); i++)
 	{
-
 		if (lst[i][0] == animalNum)
 		{
 			index = numOfAnimal - 1;
 			animal = animalList[index];
 			animal->stop();
 			break;
-			
-		}
 
+		}
 	}
 }
 
+/* Accepts as a parameter the number of the animal.
+   The command has meaning only if the animal has stopped before. When the animal starts to move, it resets its direction.*/
 void Zoo::move(int numOfAnimal) const
 {
 
@@ -266,19 +258,18 @@ void Zoo::move(int numOfAnimal) const
 
 	for (int i = 0; i < lst.size(); i++)
 	{
-
 		if (lst[i][0] == animalNum)
 		{
 			index = numOfAnimal - 1;
 			animal = animalList[index];
 			animal->move();
 			break;
-			
-
 		}
 	}
 }
 
+/* Creating another animal. Accepts as parameters the type of animal and a name for it.
+   The location of the animal will be randomly drawn.*/
 void Zoo::create(std::string  name, std::string type)
 {
 
@@ -307,6 +298,7 @@ void Zoo::create(std::string  name, std::string type)
 
 }
 
+/* Deleting an animal from the list. Accepts as a parameter the number of the animal. */
 void Zoo::del(int numOfAnimal)
 {
 	Animal* animal;
@@ -320,9 +312,8 @@ void Zoo::del(int numOfAnimal)
 	{
 		if (lst[i][0] == animalNum)
 		{
-
 			tokenizer(lst[i][3], ',', out);
-			map[stoi(out[0])][stoi(out[1])] = 'x';
+			map[stoi(out[0])][stoi(out[1])] = '-';
 			lst.erase(lst.begin() + i);
 			index = numOfAnimal - 1;
 			animal = animalList[index];
@@ -337,11 +328,11 @@ void Zoo::del(int numOfAnimal)
 			number -= 1;
 			lst[i][0] = std::to_string(number);
 		}
-
 	}
-
 }
 
+/* Deleting all animals of a certain type.
+   Accepts as a parameter the type of animal and will delete from the list all animals of this type. */
 void Zoo::delAll(std::string type)
 {
 	std::vector<std::string> out;
@@ -349,7 +340,6 @@ void Zoo::delAll(std::string type)
 	int i = 0;
 	while (i < lst.size())
 	{
-
 		if (lst[i][2] == type)
 		{
 			del(stoi(lst[i][0]));
@@ -357,9 +347,9 @@ void Zoo::delAll(std::string type)
 		}
 		i += 1;
 	}
-
 }
 
+/* Printing help text that explains what the possible commands are, what their parameters are and what they do. */
 void Zoo::help() const
 {
 	const char* text = "\nstop - make the animal stop. The command will receive as a parameter the number of the animal."
@@ -385,7 +375,8 @@ void Zoo::help() const
 
 }
 
-//
+/* Used to make the program advance to the next turn, without changing anything.
+   That is, all animals in motion continue to move according to the rules. */
 void Zoo::step()
 {
 	Animal* animal;
@@ -397,9 +388,9 @@ void Zoo::step()
 	{
 
 		tokenizer(lst[i][3], ',', out);
-		loc.row = stoi(out[0]);
+		loc.row = stoi(out[0]); // Convert string to int
 		loc.column = stoi(out[1]);
-		map[loc.row][loc.column] = 'x';
+		map[loc.row][loc.column] = '-';
 		animal = factory(lst[i][0], lst[i][1], lst[i][2], loc);
 		animal->step();
 		loc = animal->getLocation();
@@ -408,11 +399,11 @@ void Zoo::step()
 		lst[i].pop_back();
 		lst[i].push_back(location);
 		out.clear();
-
-
 	}
 }
 
+/* A helper function that receives the number of the animal, its name, the type and the location 
+  and checks according to the number of the animal if its instance exists, if not creates it, and in any case returns it.*/
 Animal* Zoo::factory(std::string number, std::string name, std::string type, Animal::Location location)
 {
 	int numberOfAnimal = stoi(number);
@@ -431,9 +422,9 @@ Animal* Zoo::factory(std::string number, std::string name, std::string type, Ani
 
 	index = numberOfAnimal - 1;
 	return animalList[index];
-
 }
 
+/* Helper function that returns location, row and column number, random .*/
 Animal::Location Zoo::randLocation()
 {
 	Animal::Location loc;
@@ -448,20 +439,22 @@ Animal::Location Zoo::randLocation()
 
 	return loc;
 }
+
+/* Printing the list and the map. */
 void Zoo::printListAndMap()
 {
-
+	// Print the map
 	std::cout << "                                 Welcome to the Zoo!  " << std::endl;
 	std::cout << "   +-------------------------------------------------------------------------------+" << std::endl;
 
 	for (int i = 0; i < 20; i++) {
-		// print the first character as part of the opener.
+		// Print the first character as part of the opener.
 		if (i < 10)
 			std::cout << " " << i << " |" << map[i][0];
 		else
 			std::cout << " " << i << "|" << map[i][0];
 		for (int j = 1; j < 40; j++) {
-			// only add spaces for subsequent characters.
+			// Only add spaces for subsequent characters.
 			std::cout << " " << map[i][j];
 		}
 		std::cout << "|" << std::endl;
@@ -469,19 +462,18 @@ void Zoo::printListAndMap()
 	std::cout << "   +-------------------------------------------------------------------------------+" << std::endl;
 
 
-	//print the list
+	// Print the list
 	for (int i = 0; i < lst.size(); i++)
 	{
 		std::cout << lst[i][0] << " ";
 		animalList[i]->printDetails();
-
-
 	}
 }
 
+/* A helper function that accepts a string, and a character to cut according to it, a vector into which the result will enter. */
 void Zoo::tokenizer(std::string str, const char delim, std::vector<std::string>& out)
 {
-	// construct a stream from the string
+	// Construct a stream from the string
 	std::stringstream ss(str);
 
 	std::string s;

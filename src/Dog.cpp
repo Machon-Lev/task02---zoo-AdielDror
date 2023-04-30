@@ -1,6 +1,8 @@
+/* This is a cpp file for a child class that represents a Dog*/
 #include "Dog.h"
 #include <iostream>
 
+// Constructor
 Dog::Dog(const std::string& name, const Location& _location) : Animal(name)
 {
 	location.row = _location.row;
@@ -9,20 +11,24 @@ Dog::Dog(const std::string& name, const Location& _location) : Animal(name)
 	direction = (rand() % 2) + 1;
 }
 
+// Destructor
 Dog::~Dog()
 {
 }
 
+/* Prints the name of the animal, its type and location. */
 void Dog::printDetails() const
 {
 	std::cout << name << " Dog " << location;
 }
 
+/* Returns the first letter of the class name. */
 char Dog::getInitial() const
 {
 	return 'D';
 }
 
+/* Causes the animal to advance a step (according to the rules), provided the animal is currently moving.*/
 void Dog::step()
 {
 	if (state == "move")
@@ -75,6 +81,7 @@ void Dog::step()
 	}
 }
 
+/* Causes the animal to go into movement mode, meaning that if we now call step() it will indeed move. */
 void Dog::move()
 {
 	if (state == "stop")

@@ -1,10 +1,10 @@
+/* This is a header file for a child class that represents a Dog. */
 #include "Animal.h"
 #include <string>
 class Dog : public Animal{
 
 public:
 	Dog(const std::string&, const Location&);
-	Dog(std::string);
 	~Dog();
 
 	void printDetails() const override;
@@ -14,5 +14,5 @@ public:
 
 private:
  std::string status = "run";
-	
+
 };
