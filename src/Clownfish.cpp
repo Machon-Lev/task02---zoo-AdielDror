@@ -3,12 +3,10 @@
 #include <iostream>
 
 // Constructor
-Clownfish::Clownfish(const std::string& name, const Location& _location) :Animal(name) {
-
-	location.column = _location.column;
-	location.row = _location.row;
+Clownfish::Clownfish(const std::string& name, const Location& _location) :Animal(name, _location) {
 
 	direction = (rand() % 8) + 1;
+	type = "Clownfish";
 }
 
 // Destructor
@@ -35,58 +33,58 @@ void Clownfish::step()
 		if (direction == 1) {
 			if (horizontal)
 			{	
-				location.column = checkIsValid(location.column - 1, "column");	
+				location.column = checkIsValid(location.column - 1, "columns");	
 			}
 			else
 			{
-				location.column = checkIsValid(location.column + 1, "column");	
+				location.column = checkIsValid(location.column + 1, "columns");	
 			}
 		}
 		if (direction == 2) {
 			if (vertical)
 			{
-				location.row = checkIsValid(location.row - 1, "row");
+				location.row = checkIsValid(location.row - 1, "rows");
 			}
 			else
 			{
-				location.row = checkIsValid(location.row + 1, "row");
+				location.row = checkIsValid(location.row + 1, "rows");
 			}
 		}
 		if (direction == 3) {
 			if (vertical)
 			{
-				location.row = checkIsValid(location.row + 1, "row");
+				location.row = checkIsValid(location.row + 1, "rows");
 			}
 			else
 			{
-				location.row = checkIsValid(location.row - 1, "row");
+				location.row = checkIsValid(location.row - 1, "rows");
 			}
 		}
 		if (direction == 4) {
 			if (horizontal)
 			{
-				location.column = checkIsValid(location.column +1, "column");
+				location.column = checkIsValid(location.column +1, "columns");
 			}
 			else
 			{
-				location.column = checkIsValid(location.column - 1, "column");
+				location.column = checkIsValid(location.column - 1, "columns");
 			}
 		}
 		if (direction == 5) {
-			location.row = checkIsValid(location.row + 1, "row");
-			location.column = checkIsValid(location.column + 1, "column");
+			location.row = checkIsValid(location.row + 1, "rows");
+			location.column = checkIsValid(location.column + 1, "columns");
 		}
 		if (direction == 6) {
-			location.row = checkIsValid(location.row - 1, "row");
-			location.column = checkIsValid(location.column - 1, "column");
+			location.row = checkIsValid(location.row - 1, "rows");
+			location.column = checkIsValid(location.column - 1, "columns");
 		}
 		if (direction == 7) {
-			location.row = checkIsValid(location.row + 1, "row");
-			location.column = checkIsValid(location.column - 1, "column");
+			location.row = checkIsValid(location.row + 1, "rows");
+			location.column = checkIsValid(location.column - 1, "columns");
 		}
 		if (direction == 8) {
-			location.row = checkIsValid(location.row - 1, "row");
-			location.column = checkIsValid(location.column + 1, "column");
+			location.row = checkIsValid(location.row - 1, "rows");
+			location.column = checkIsValid(location.column + 1, "columns");
 		}
 	}
 }

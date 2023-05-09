@@ -3,6 +3,9 @@
 #include "Animal.h"
 #include <string>
 
+const int MAP_ROWS = 20;
+const int MAP_COLS = 40;
+
 class Zoo {
 
 public:
@@ -16,12 +19,6 @@ private:
 	
 	char map[20][40] = {};
 	
-	// The initial list
-	std::vector<std::vector<std::string>> lst{
-		std::vector<std::string>{"1","Toto", "Dog"},
-		std::vector<std::string>{"2","Jaws", "Shark"},
-		std::vector<std::string>{"3","Nemo", "Clownfish"}};
-
 	// The commands
 	void stop(int numOfAnimal) const;
 	void move(int numOfAnimal) const;
@@ -32,9 +29,14 @@ private:
 	void step();
 
 	// Auxiliary functions
-	Animal* factory(std::string, std::string, std::string, Animal::Location);
-	Animal::Location randLocation();
+	Animal* factory(std::string, std::string, Location);
+	Location randLocation();
 
 	void printListAndMap();
-	void tokenizer(std::string str, const char delim, std::vector<std::string>& out);
+
+	void stopCase();
+	void moveCase();
+	void createCase();
+	void delCase();
+	void delAllCase();
 };

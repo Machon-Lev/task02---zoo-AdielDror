@@ -19,39 +19,28 @@ Zoo::Zoo()
 		}
 	}
 
-	Animal::Location loc;
-	int rows = 20;
-	int columns = 40;
+	// Initialize animal list
+	std::vector<std::string> animalTypes = { "Dog", "Shark", "Clownfish" };
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < animalTypes.size(); i++)
 	{
-		int row = rand() % rows;
-		int column = rand() % columns;
-		loc.row = row;
-		loc.column = column;
+	
+		Location loc = randLocation();
 
-		if (i == 0)
+		switch (i)
 		{
-			map[row][column] = 'D';
-			std::string location = std::to_string(row) + "," + std::to_string(column);
-			lst[i].push_back(location);
+		case 0:
+			map[loc.row][loc.column] = 'D';
 			animalList.push_back(new Dog("Toto", loc));
-		}
-
-		if (i == 1)
-		{
-			map[row][column] = 'S';
-			std::string location = std::to_string(row) + "," + std::to_string(column);
-			lst[i].push_back(location);
+			break;
+		case 1:
+			map[loc.row][loc.column] = 'S';
 			animalList.push_back(new Shark("Jaws", loc));
-		}
-
-		if (i == 2)
-		{
-			map[row][column] = 'C';
-			std::string location = std::to_string(row) + "," + std::to_string(column);
-			lst[i].push_back(location);
+			break;
+		case 2:
+			map[loc.row][loc.column] = 'C';
 			animalList.push_back(new Clownfish("Nemo", loc));
+			break;
 		}
 	}
 }
@@ -59,10 +48,7 @@ Zoo::Zoo()
 /* The main function that is activated from the main. */
 void Zoo::run()
 {
-	std::string type;
-	std::string name;
-	int numOfAnimal;
-	bool found;
+
 	std::list<std::string> classes = { "Dog", "Shark", "Clownfish" };
 
 	printListAndMap();
@@ -87,128 +73,19 @@ void Zoo::run()
 		{
 		case 0: break;
 		case 1:
-			try
-			{
-				found = false;
-				std::cout << "Enter number of animal: ";
-				std::cin >> numOfAnimal;
-				std::string number = std::to_string(numOfAnimal);
-				for (int i = 0; i < lst.size(); i++)
-				{
-					if (lst[i][0] == number)
-					{
-						found = true;
-						stop(numOfAnimal);
-						break;
-					}
-				}
-				if (!found)
-					throw numOfAnimal;
-			}
-			catch (const int number)
-			{
-				std::cout << "Animal number " << number << " does not exist!\n\n";
-			}
-			step();
-			printListAndMap();
+			stopCase();
 			break;
 		case 2:
-			try
-			{
-				found = false;
-				std::cout << "Enter number of animal: ";
-				std::cin >> numOfAnimal;
-				std::string number = std::to_string(numOfAnimal);
-				for (int i = 0; i < lst.size(); i++)
-				{
-					if (lst[i][0] == number)
-					{
-						found = true;
-						move(numOfAnimal);
-						break;
-					}
-				}
-				if (!found)
-					throw numOfAnimal;
-			}
-			catch (const int number)
-			{
-				std::cout << "Animal number " << number << " does not exist!\n\n";
-			}
-			step();
-			printListAndMap();
+			moveCase();
 			break;
 		case 3:
-			try
-			{
-				std::cout << "Enter type of animal: ";
-				std::cin >> type;
-				found = (std::find(classes.begin(), classes.end(), type) != classes.end());
-				if (found)
-				{
-					std::cout << "Enter name of animal: ";
-					std::cin >> name;
-					create(type, name);
-				}
-				else
-				{
-					throw (type);
-				}
-			}
-			catch (const std::string type)
-			{
-				std::cout << "Invalid " << type << " type, try again!\n\n";
-			}
-			step();
-			printListAndMap();
+			createCase();
 			break;
 		case 4:
-			try
-			{
-				found = false;
-				std::cout << "Enter number of animal: ";
-				std::cin >> numOfAnimal;
-				std::string number = std::to_string(numOfAnimal);
-				for (int i = 0; i < lst.size(); i++)
-				{
-					if (lst[i][0] == number)
-					{
-						found = true;
-						del(numOfAnimal);
-						break;
-					}
-				}
-				if (!found)
-					throw numOfAnimal;
-			}
-			catch (const int number)
-			{
-				std::cout << "Animal number " << number << " does not exist!\n\n";
-			}
-			step();
-			printListAndMap();
+			delCase();
 			break;
 		case 5:
-			try
-			{
-				std::cout << "Enter type of animal: ";
-				std::cin >> type;
-				found = (std::find(classes.begin(), classes.end(), type) != classes.end());
-				if (found)
-				{
-					delAll(type);
-				}
-				else
-				{
-					throw (type);
-				}
-			}
-			catch (const std::string type)
-			{
-				std::cout << "Invalid " << type << " type, try again!\n\n";
-			}
-			step();
-			printListAndMap();
+			delAllCase();
 			break;
 		case 6:
 			help();
@@ -226,20 +103,18 @@ void Zoo::run()
 
 	} while (choice != 0);
 }
+
 /* Accepts as a parameter the number of the animal.
    This animal will not move from here on out, unless the move command is applied to it again */
 void Zoo::stop(int numOfAnimal) const
 {
 	Animal* animal;
-	std::string animalNum = std::to_string(numOfAnimal);
-	int index;
 
-	for (int i = 0; i < lst.size(); i++)
+	for (int i = 0; i < animalList.size(); ++i)
 	{
-		if (lst[i][0] == animalNum)
+		if (numOfAnimal == i + 1)
 		{
-			index = numOfAnimal - 1;
-			animal = animalList[index];
+			animal = animalList[i];
 			animal->stop();
 			break;
 
@@ -251,17 +126,13 @@ void Zoo::stop(int numOfAnimal) const
    The command has meaning only if the animal has stopped before. When the animal starts to move, it resets its direction.*/
 void Zoo::move(int numOfAnimal) const
 {
-
 	Animal* animal;
-	std::string animalNum = std::to_string(numOfAnimal);
-	int index;
 
-	for (int i = 0; i < lst.size(); i++)
+	for (int i = 0; i < animalList.size(); ++i)
 	{
-		if (lst[i][0] == animalNum)
+		if (numOfAnimal == i + 1)
 		{
-			index = numOfAnimal - 1;
-			animal = animalList[index];
+			animal = animalList[i];
 			animal->move();
 			break;
 		}
@@ -272,29 +143,11 @@ void Zoo::move(int numOfAnimal) const
    The location of the animal will be randomly drawn.*/
 void Zoo::create(std::string  name, std::string type)
 {
-
-	Animal::Location loc;
 	Animal* animal;
+	Location loc = randLocation();
 
-
-	int rows = 20;
-	int columns = 40;
-
-	int row = rand() % rows;
-	int column = rand() % columns;
-
-	std::string location = std::to_string(row) + "," + std::to_string(column);
-
-	size_t num = lst.size() + 1;
-	std::stringstream ss;
-	ss << num;
-	std::vector<std::string> newAnimal = { ss.str(), type,name, location };
-
-	lst.push_back(newAnimal);
-	loc.column = column;
-	loc.row = row;
-	animal = factory(ss.str(), type, name, loc);
-	map[row][column] = animal->getInitial();
+	animal = factory(type, name, loc);
+	map[loc.row][loc.column] = animal->getInitial();
 
 }
 
@@ -302,31 +155,16 @@ void Zoo::create(std::string  name, std::string type)
 void Zoo::del(int numOfAnimal)
 {
 	Animal* animal;
-	bool flag = false;
-	int number;
-	int index;
 
-	std::vector<std::string> out;
-	std::string animalNum = std::to_string(numOfAnimal);
-	for (int i = 0; i < lst.size(); i++)
+	for (int i = 0; i < animalList.size(); i++)
 	{
-		if (lst[i][0] == animalNum)
+		if (numOfAnimal == i + 1)
 		{
-			tokenizer(lst[i][3], ',', out);
-			map[stoi(out[0])][stoi(out[1])] = '-';
-			lst.erase(lst.begin() + i);
-			index = numOfAnimal - 1;
-			animal = animalList[index];
-			animalList.erase(animalList.begin() + index);
+			map[animalList[i]->getLocation().row][animalList[i]->getLocation().column] = '-';
+			animal = animalList[i];
+			animalList.erase(animalList.begin() + i);
 			delete animal;
-			flag = true;
-		}
-
-		if (flag && i < lst.size())
-		{
-			number = stoi(lst[i][0]);
-			number -= 1;
-			lst[i][0] = std::to_string(number);
+			break;
 		}
 	}
 }
@@ -335,14 +173,13 @@ void Zoo::del(int numOfAnimal)
    Accepts as a parameter the type of animal and will delete from the list all animals of this type. */
 void Zoo::delAll(std::string type)
 {
-	std::vector<std::string> out;
-
 	int i = 0;
-	while (i < lst.size())
+	while (i < animalList.size())
 	{
-		if (lst[i][2] == type)
+
+		if (animalList[i]->toString() == type)
 		{
-			del(stoi(lst[i][0]));
+			del(i + 1);
 			i -= 1;
 		}
 		i += 1;
@@ -380,59 +217,40 @@ void Zoo::help() const
 void Zoo::step()
 {
 	Animal* animal;
-	Animal::Location loc;
-	std::vector<std::string> out;
-	std::string location;
+	Location loc;
 
-	for (int i = 0; i < lst.size(); i++)
+	for (int i = 0; i < animalList.size(); ++i)
 	{
-
-		tokenizer(lst[i][3], ',', out);
-		loc.row = stoi(out[0]); // Convert string to int
-		loc.column = stoi(out[1]);
+		animal = animalList[i];
+		loc.row = animal->getLocation().row;
+		loc.column = animal->getLocation().column;
 		map[loc.row][loc.column] = '-';
-		animal = factory(lst[i][0], lst[i][1], lst[i][2], loc);
 		animal->step();
 		loc = animal->getLocation();
 		map[loc.row][loc.column] = animal->getInitial();
-		location = std::to_string(loc.row) + "," + std::to_string(loc.column);
-		lst[i].pop_back();
-		lst[i].push_back(location);
-		out.clear();
 	}
 }
 
-/* A helper function that receives the number of the animal, its name, the type and the location 
+/* A helper function that receives the number of the animal, its name, the type and the location
   and checks according to the number of the animal if its instance exists, if not creates it, and in any case returns it.*/
-Animal* Zoo::factory(std::string number, std::string name, std::string type, Animal::Location location)
+Animal* Zoo::factory(std::string name, std::string type, Location newLocation)
 {
-	int numberOfAnimal = stoi(number);
-	int index;
-
-	if (numberOfAnimal > animalList.size())
-	{
-		if (type == "Dog")
-			animalList.push_back(new Dog(name, location));
-		if (type == "Shark")
-			animalList.push_back(new Shark(name, location));
-		if (type == "Clownfish")
-			animalList.push_back(new Clownfish(name, location));
-		return animalList.back();
-	}
-
-	index = numberOfAnimal - 1;
-	return animalList[index];
+	if (type == "Dog")
+		animalList.push_back(new Dog(name, newLocation));
+	if (type == "Shark")
+		animalList.push_back(new Shark(name, newLocation));
+	if (type == "Clownfish")
+		animalList.push_back(new Clownfish(name, newLocation));
+	return animalList.back();
 }
 
 /* Helper function that returns location, row and column number, random .*/
-Animal::Location Zoo::randLocation()
+Location Zoo::randLocation()
 {
-	Animal::Location loc;
-	int rows = 20;
-	int columns = 40;
+	Location loc;
 
-	int row = rand() % rows;
-	int column = rand() % columns;
+	int row = rand() % MAP_ROWS;
+	int column = rand() % MAP_COLS;
 
 	loc.column = column;
 	loc.row = row;
@@ -463,23 +281,164 @@ void Zoo::printListAndMap()
 
 
 	// Print the list
-	for (int i = 0; i < lst.size(); i++)
+	for (int i = 0; i < animalList.size(); i++)
 	{
-		std::cout << lst[i][0] << " ";
+		std::cout << i + 1 << " ";
 		animalList[i]->printDetails();
 	}
 }
 
-/* A helper function that accepts a string, and a character to cut according to it, a vector into which the result will enter. */
-void Zoo::tokenizer(std::string str, const char delim, std::vector<std::string>& out)
+/* Helper function for case of stop. */
+void Zoo::stopCase()
 {
-	// Construct a stream from the string
-	std::stringstream ss(str);
+	int numOfAnimal;
+	bool found;
+	try
+	{
+		found = false;
+		std::cout << "Enter number of animal: ";
+		std::cin >> numOfAnimal;
 
-	std::string s;
-	while (std::getline(ss, s, delim)) {
-		out.push_back(s);
+		for (int i = 0; i < animalList.size(); i++)
+		{
+			if (i + 1 == numOfAnimal)
+			{
+				found = true;
+				stop(numOfAnimal);
+				break;
+			}
+		}
+		if (!found)
+			throw numOfAnimal;
 	}
+	catch (const int number)
+	{
+		std::cout << "Animal number " << number << " does not exist!\n\n";
+	}
+	step();
+	printListAndMap();
+}
+
+/* Helper function for case of move. */
+void Zoo::moveCase()
+{
+	int numOfAnimal;
+	bool found;
+	try
+	{
+		found = false;
+		std::cout << "Enter number of animal: ";
+		std::cin >> numOfAnimal;
+
+		for (int i = 0; i < animalList.size(); i++)
+		{
+			if (i + 1 == numOfAnimal)
+			{
+				found = true;
+				move(numOfAnimal);
+				break;
+			}
+		}
+		if (!found)
+			throw numOfAnimal;
+	}
+	catch (const int number)
+	{
+		std::cout << "Animal number " << number << " does not exist!\n\n";
+	}
+	step();
+	printListAndMap();
+}
+
+/* Helper function for case of create. */
+void Zoo::createCase()
+{
+	std::string type;
+	std::string name;
+	bool found;
+	std::list<std::string> classes = { "Dog", "Shark", "Clownfish" };
+	try
+	{
+		std::cout << "Enter type of animal: ";
+		std::cin >> type;
+		found = (std::find(classes.begin(), classes.end(), type) != classes.end());
+		if (found)
+		{
+			std::cout << "Enter name of animal: ";
+			std::cin >> name;
+			create(type, name);
+		}
+		else
+		{
+			throw (type);
+		}
+	}
+	catch (const std::string type)
+	{
+		std::cout << "Invalid " << type << " type, try again!\n\n";
+	}
+	step();
+	printListAndMap();
+}
+
+/* Helper function for case of delete. */
+void Zoo::delCase()
+{
+	int numOfAnimal;
+	bool found;
+	try
+	{
+		found = false;
+		std::cout << "Enter number of animal: ";
+		std::cin >> numOfAnimal;
+
+		for (int i = 0; i < animalList.size(); i++)
+		{
+			if (i + 1 == numOfAnimal)
+			{
+				found = true;
+				del(numOfAnimal);
+				break;
+			}
+		}
+		if (!found)
+			throw numOfAnimal;
+	}
+	catch (const int number)
+	{
+		std::cout << "Animal number " << number << " does not exist!\n\n";
+	}
+	step();
+	printListAndMap();
+}
+
+/* Helper function for case of delete all. */
+void Zoo::delAllCase()
+{
+	std::string type;
+	bool found;
+	std::list<std::string> classes = { "Dog", "Shark", "Clownfish" };
+
+	try
+	{
+		std::cout << "Enter type of animal: ";
+		std::cin >> type;
+		found = (std::find(classes.begin(), classes.end(), type) != classes.end());
+		if (found)
+		{
+			delAll(type);
+		}
+		else
+		{
+			throw (type);
+		}
+	}
+	catch (const std::string type)
+	{
+		std::cout << "Invalid " << type << " type, try again!\n\n";
+	}
+	step();
+	printListAndMap();
 }
 
 

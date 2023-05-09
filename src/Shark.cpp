@@ -3,12 +3,10 @@
 #include <iostream>
 
 // Constructor
-Shark::Shark(const std::string& name, const Location& _location) : Animal(name)
+Shark::Shark(const std::string& name, const Location& _location) : Animal(name, _location)
 {
-	location.row = _location.row;
-	location.column = _location.column;
-
 	direction = (rand() % 8) + 1;
+	type = "Shark";
 }
 
 // Destructor
@@ -36,58 +34,58 @@ void Shark::step()
 		if (direction == 1) {
 			if (horizontal)
 			{
-				location.column = checkIsValid(location.column - 5, "column");
+				location.column = checkIsValid(location.column - 5, "columns");
 			}
 			else
 			{
-				location.column = checkIsValid(location.column + 5, "column");
+				location.column = checkIsValid(location.column + 5, "columns");
 			}
 		}
 		if (direction == 2) {
 			if (vertical)
 			{
-				location.row = checkIsValid(location.row - 5, "row");
+				location.row = checkIsValid(location.row - 5, "rows");
 			}
 			else
 			{
-				location.row = checkIsValid(location.row + 5, "row");
+				location.row = checkIsValid(location.row + 5, "rows");
 			}
 		}
 		if (direction == 3) {
 			if (vertical)
 			{
-				location.row = checkIsValid(location.row + 5, "row");
+				location.row = checkIsValid(location.row + 5, "rows");
 			}
 			else
 			{
-				location.row = checkIsValid(location.row - 5, "row");
+				location.row = checkIsValid(location.row - 5, "rows");
 			}
 		}
 		if (direction == 4) {
 			if (horizontal)
 			{
-				location.column = checkIsValid(location.column + 5, "column");
+				location.column = checkIsValid(location.column + 5, "columns");
 			}
 			else
 			{
-				location.column = checkIsValid(location.column - 5, "column");
+				location.column = checkIsValid(location.column - 5, "columns");
 			}
 		}
 		if (direction == 5) {
-			location.row = checkIsValid(location.row + 5, "row");
-			location.column = checkIsValid(location.column + 5, "column");		
+			location.row = checkIsValid(location.row + 5, "rows");
+			location.column = checkIsValid(location.column + 5, "columns");		
 		}
 		if (direction == 6) {
-			location.row = checkIsValid(location.row - 5, "row");
-			location.column = checkIsValid(location.column - 5, "column");
+			location.row = checkIsValid(location.row - 5, "rows");
+			location.column = checkIsValid(location.column - 5, "columns");
 		}
 		if (direction == 7) {
-			location.row = checkIsValid(location.row + 5, "row");
-			location.column = checkIsValid(location.column - 5, "column");
+			location.row = checkIsValid(location.row + 5, "rows");
+			location.column = checkIsValid(location.column - 5, "columns");
 		}
 		if (direction == 8) {
-			location.row = checkIsValid(location.row - 5, "row");
-			location.column = checkIsValid(location.column + 5, "column");
+			location.row = checkIsValid(location.row - 5, "rows");
+			location.column = checkIsValid(location.column + 5, "columns");
 		}
 	}
 }

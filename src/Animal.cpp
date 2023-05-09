@@ -3,12 +3,15 @@
 #include <string>
 
 // Constructor
-Animal::Animal(std::string name) :name(name)
+Animal::Animal(std::string name, Location loc) :name(name)
 {
+	this->location.row = loc.row;
+	this->location.column = loc.column;
+
 }
 
 /* Returns the location of the animal. */
-Animal::Location Animal::getLocation() const
+Location Animal::getLocation() const
 {
 	return location;
 }
@@ -50,36 +53,9 @@ void Animal::turnHorizontally()
 	}
 }
 
-// Operator << (print)
-std::ostream& operator<<(std::ostream& os, const Animal::Location& loc)
+std::string Animal::toString() const
 {
-	os << loc.row << "," << loc.column << std::endl;
-	return os;
-}
-
-// Operator ==
-bool Animal::Location::operator==(Location const& rhs) const
-{
-	return (this->row == rhs.row) && (this->column == rhs.column);
-}
-
-// Operator !=
-bool Animal::Location::operator!=(Location const& rhs) const
-{
-	return !(*this == rhs);
-}
-
-// Operator + 
-Animal::Location Animal::Location::operator+(const Location& rhs) const
-{
-	return Location(rhs.row+row, rhs.column+column);
-}
- //Operator +=
-Animal::Location& Animal::Location::operator+=(const Location& rhs)
-{
-	this->row += rhs.row;
-	this->column += rhs.column;
-	return *this;
+	return type;
 }
 
 /* A non-member helper function that checks if the index of moving the animal in the map is valid,
@@ -89,10 +65,10 @@ int checkIsValid(int index, std::string rowOrColumn)
 	if (index < 0)
 		return 0;
 
-	if (index > 39 && rowOrColumn == "column")
+	if (index > 39 && rowOrColumn == COLUMNS)
 		return 39;
 
-	if (index > 19 && rowOrColumn == "row")
+	if (index > 19 && rowOrColumn == ROWS)
 		return 19;
 	return index;
 }

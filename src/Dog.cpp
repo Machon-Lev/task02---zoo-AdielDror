@@ -3,12 +3,10 @@
 #include <iostream>
 
 // Constructor
-Dog::Dog(const std::string& name, const Location& _location) : Animal(name)
+Dog::Dog(const std::string& name, const Location& _location) : Animal(name, _location)
 {
-	location.row = _location.row;
-	location.column = _location.column;
-
 	direction = (rand() % 2) + 1;
+	type = "Dog";
 }
 
 // Destructor
@@ -37,13 +35,13 @@ void Dog::step()
 
 			if (direction == 1) {
 				if (horizontal) {
-					location.column = checkIsValid(location.column - 3, "column");
+					location.column = checkIsValid(location.column - 3, "columns");
 		
 					dir = "col";
 				}
 				else
 				{
-					location.column = checkIsValid(location.column + 3, "column");
+					location.column = checkIsValid(location.column + 3, "columns");
 		
 					dir = "col";
 				}
@@ -52,13 +50,13 @@ void Dog::step()
 			else {
 				if (vertical)
 				{
-					location.row = checkIsValid(location.row - 3, "row");
+					location.row = checkIsValid(location.row - 3, "rows");
 			
 					dir = "row";
 				}
 				else
 				{
-					location.row = checkIsValid(location.row + 3, "row");
+					location.row = checkIsValid(location.row + 3, "rows");
 					
 					dir = "row";
 				}

@@ -3,7 +3,10 @@
 
 /* This is a header file for the Animal abstract base class. */
 #include <iostream>
+#include <Location.h>
 
+const std::string ROWS = "rows";
+const std::string COLUMNS = "columns";
 
 class Animal {
 
@@ -15,26 +18,13 @@ protected:
 	bool vertical = false;
 	bool horizontal =  false;
 	bool flag =  false;
-
+	Location location;
+	std::string type;
 
 public:
 	// Constructor and destructor
-	Animal(std::string name);
+	Animal(std::string name, Location loc);
 	virtual ~Animal()=default;
-
-	struct Location
-	{
-		int row;
-		int column;
-
-		// Operators
-		friend std::ostream& operator<<(std::ostream& os, const Location& loc);
-		bool operator==(Location const& rhs) const;
-		bool operator!=(Location const& rhs) const;
-		Location operator+(const Location& rhs) const;
-		Location& operator+=(const Location& rhs);
-
-	}location = { 0 ,0 };
 
 	inline virtual void printDetails() const = 0;
 	inline virtual char getInitial() const = 0;
@@ -44,6 +34,9 @@ public:
 	inline virtual void move() = 0;
 	inline virtual void turnVertically();
 	inline virtual void turnHorizontally();	
+
+	std::string toString() const;
+	
 };
 
 int checkIsValid(int index, std::string rowOrColumn);
