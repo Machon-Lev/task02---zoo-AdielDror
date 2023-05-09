@@ -1,0 +1,1 @@
+target_include_directories (tasks_week3_adiel_dror PRIVATE ${CMAKE_CURRENT_LIST_DIR})
